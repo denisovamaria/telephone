@@ -34,5 +34,28 @@ int main() {
             f++;
         }
     }
-
+    long long int **keybord = new long long int *[n];
+    for (int i = 0; i < n; ++i) {
+        keybord[i] = new long long int[m];
+    }
+    keybord[0][0] = freq[0];
+    for (int i = 1; i < m; i++) {
+        keybord[0][i] = book[0][i];
+    }
+    for (int i = 1; i < n; i++) {
+        keybord[i][i] = keybord[i - 1][i - 1] + freq[i];
+    }
+    for (int i = 1; i < n; i++) {
+        for (int j = i + 1; j < m; j++) {
+            unsigned long long int sum = keybord[0][m - 1];
+            keybord[i][j] = sum;
+            for (int s = i - 1; s < m - 1; s++) {
+                sum = keybord[i - 1][s] + book[s + 1][j];
+                if (sum < keybord[i][j])
+                    keybord[i][j] = sum;
+            }
+        }
+    }
+    out << keybord[n - 1][m - 1];
+    return 0;
 }
